@@ -27,7 +27,16 @@ const initialState: PizzaState = {
   pizzasNeeded: 2
 };
 
-const reducer = (state: any, action: any) => {
+// this will help catch spelling mistakes
+type PizzaAction = {
+  type:
+    | "UPDATE_NUMBER_OF_PEOPLE"
+    | "UPDATE_SLICES_PER_PERSON"
+    | "UPDATE_SLICES_PER_PIE";
+  payload: number;
+};
+
+const reducer = (state: PizzaState, action: PizzaAction) => {
   if (action.type === 'UPDATE_NUMBER_OF_PEOPLE') {
     return addPizzasNeededToPizzaData({
       ...state,
@@ -61,7 +70,7 @@ const Calculation = ({ count }: { count: any }) => {
   );
 };
 
-const Calculator = ({ dispatch, state }: { state: any; dispatch: any }) => {
+const Calculator = ({ dispatch, state }: { state: PizzaState; dispatch: React.Dispatch<PizzaAction> }) => {
   return (
     <form onSubmit={() => {}}>
       <label htmlFor="number-of-people">Number of People</label>
@@ -72,7 +81,7 @@ const Calculator = ({ dispatch, state }: { state: any; dispatch: any }) => {
         onChange={(event) =>
           dispatch({
             type: 'UPDATE_NUMBER_OF_PEOPLE',
-            payload: event.target.value
+            payload: +event.target.value
           })
         }
       />
@@ -84,7 +93,7 @@ const Calculator = ({ dispatch, state }: { state: any; dispatch: any }) => {
         onChange={(event) =>
           dispatch({
             type: 'UPDATE_SLICES_PER_PERSON',
-            payload: event.target.value
+            payload: +event.target.value
           })
         }
       />
@@ -96,7 +105,7 @@ const Calculator = ({ dispatch, state }: { state: any; dispatch: any }) => {
         onChange={(event) =>
           dispatch({
             type: 'UPDATE_SLICES_PER_PIE',
-            payload: event.target.value
+            payload: +event.target.value
           })
         }
       />
